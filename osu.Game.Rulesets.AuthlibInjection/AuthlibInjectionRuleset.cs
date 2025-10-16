@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
+using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Sprites;
@@ -10,12 +11,14 @@ using osu.Game.Configuration;
 using osu.Game.Overlays.Settings;
 using osu.Game.Rulesets.AuthlibInjection.Beatmaps;
 using osu.Game.Rulesets.AuthlibInjection.Configuration;
+using osu.Game.Rulesets.AuthlibInjection.Extensions;
 using osu.Game.Rulesets.AuthlibInjection.UI;
 using osu.Game.Rulesets.Configuration;
 using osu.Game.Rulesets.Difficulty;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.UI;
 using osuTK;
+using osuTK.Graphics.ES11;
 
 namespace osu.Game.Rulesets.AuthlibInjection
 {
@@ -45,8 +48,13 @@ namespace osu.Game.Rulesets.AuthlibInjection
         public override DifficultyCalculator CreateDifficultyCalculator(IWorkingBeatmap beatmap) =>
             new AuthlibInjectionDifficultyCalculator(RulesetInfo, beatmap);
 
-        public override IRulesetConfigManager CreateConfig(SettingsStore settings) =>
-            new AuthlibRulesetConfigManager(settings, RulesetInfo);
+        private static AuthlibRulesetConfigManager configManager = null;
+
+        public override IRulesetConfigManager CreateConfig(SettingsStore settings)
+        {
+            configManager = new AuthlibRulesetConfigManager(settings, RulesetInfo);
+            return configManager;
+        }
 
         public override RulesetSettingsSubsection CreateSettings() => new AuthlibSettingsSubsection(this);
 
@@ -81,6 +89,28 @@ namespace osu.Game.Rulesets.AuthlibInjection
                         Icon = FontAwesome.Solid.Hammer,
                     }
                 ];
+            }
+
+            [BackgroundDependencyLoader(permitNulls: true)]
+            private void load(OsuGame game)
+            {
+                var authlibLocalConfig = (AuthlibRulesetConfig)(game.Dependencies as DependencyContainer).getFromCache<AuthlibRulesetConfig>();
+                if (!string.IsNullOrEmpty(authlibLocalConfig.ApiUrl))
+                    configManager.SetValue(AuthlibRulesetSettings.ApiUrl, authlibLocalConfig.ApiUrl);
+                if (!string.IsNullOrEmpty(authlibLocalConfig.WebsiteUrl))
+                    configManager.SetValue(AuthlibRulesetSettings.WebsiteUrl, authlibLocalConfig.WebsiteUrl);
+                if (!string.IsNullOrEmpty(authlibLocalConfig.SpectatorUrl))
+                    configManager.SetValue(AuthlibRulesetSettings.SpectatorUrl, authlibLocalConfig.SpectatorUrl);
+                if (!string.IsNullOrEmpty(authlibLocalConfig.MultiplayerUrl))
+                    configManager.SetValue(AuthlibRulesetSettings.MultiplayerUrl, authlibLocalConfig.MultiplayerUrl);
+                if (!string.IsNullOrEmpty(authlibLocalConfig.MetadataUrl))
+                    configManager.SetValue(AuthlibRulesetSettings.MetadataUrl, authlibLocalConfig.MetadataUrl);
+                if (!string.IsNullOrEmpty(authlibLocalConfig.BeatmapSubmissionServiceUrl))
+                    configManager.SetValue(AuthlibRulesetSettings.BeatmapSubmissionServiceUrl, authlibLocalConfig.BeatmapSubmissionServiceUrl);
+                if (!string.IsNullOrEmpty(authlibLocalConfig.ClientId))
+                    configManager.SetValue(AuthlibRulesetSettings.ClientId, authlibLocalConfig.ClientId);
+                if (!string.IsNullOrEmpty(authlibLocalConfig.ClientSecret))
+                    configManager.SetValue(AuthlibRulesetSettings.ClientSecret, authlibLocalConfig.ClientSecret);
             }
         }
     }

@@ -2,10 +2,12 @@ using System;
 using System.IO;
 using HarmonyLib;
 using Newtonsoft.Json;
+using osu.Framework.Allocation;
 using osu.Framework.Platform;
 using osu.Game.Configuration;
 using osu.Game.Online;
 using osu.Game.Rulesets.AuthlibInjection.Configuration;
+using osu.Game.Rulesets.AuthlibInjection.Extensions;
 
 namespace osu.Game.Rulesets.AuthlibInjection.Patches;
 
@@ -85,6 +87,10 @@ public class EndpointPatch
         }
 
         var authlibLocalConfig = JsonConvert.DeserializeObject<AuthlibRulesetConfig>(config);
+
+        var deps = __instance.Dependencies as DependencyContainer;
+        deps.replaceOrCacheAs(authlibLocalConfig);
+
         readFromCommandLine(authlibLocalConfig);
 
         if (!string.IsNullOrEmpty(authlibLocalConfig.ApiUrl))
