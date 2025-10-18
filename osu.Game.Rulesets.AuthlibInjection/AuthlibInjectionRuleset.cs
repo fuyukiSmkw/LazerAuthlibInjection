@@ -18,7 +18,6 @@ using osu.Game.Rulesets.Difficulty;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.UI;
 using osuTK;
-using osuTK.Graphics.ES11;
 
 namespace osu.Game.Rulesets.AuthlibInjection
 {

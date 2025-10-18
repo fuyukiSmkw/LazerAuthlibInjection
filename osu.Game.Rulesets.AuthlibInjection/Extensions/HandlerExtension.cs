@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using osu.Game.Screens.Ranking.Expanded.Statistics;
 
 #nullable enable
 
