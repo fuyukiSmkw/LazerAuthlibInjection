@@ -95,22 +95,14 @@ namespace osu.Game.Rulesets.AuthlibInjection
             private void load(OsuGame game)
             {
                 var authlibLocalConfig = (AuthlibRulesetConfig)(game.Dependencies as DependencyContainer).getFromCache<AuthlibRulesetConfig>();
-                if (!string.IsNullOrEmpty(authlibLocalConfig.ApiUrl))
-                    configManager.SetValue(AuthlibRulesetSettings.ApiUrl, authlibLocalConfig.ApiUrl);
-                if (!string.IsNullOrEmpty(authlibLocalConfig.WebsiteUrl))
-                    configManager.SetValue(AuthlibRulesetSettings.WebsiteUrl, authlibLocalConfig.WebsiteUrl);
-                if (!string.IsNullOrEmpty(authlibLocalConfig.SpectatorUrl))
-                    configManager.SetValue(AuthlibRulesetSettings.SpectatorUrl, authlibLocalConfig.SpectatorUrl);
-                if (!string.IsNullOrEmpty(authlibLocalConfig.MultiplayerUrl))
-                    configManager.SetValue(AuthlibRulesetSettings.MultiplayerUrl, authlibLocalConfig.MultiplayerUrl);
-                if (!string.IsNullOrEmpty(authlibLocalConfig.MetadataUrl))
-                    configManager.SetValue(AuthlibRulesetSettings.MetadataUrl, authlibLocalConfig.MetadataUrl);
-                if (!string.IsNullOrEmpty(authlibLocalConfig.BeatmapSubmissionServiceUrl))
-                    configManager.SetValue(AuthlibRulesetSettings.BeatmapSubmissionServiceUrl, authlibLocalConfig.BeatmapSubmissionServiceUrl);
-                if (!string.IsNullOrEmpty(authlibLocalConfig.ClientId))
-                    configManager.SetValue(AuthlibRulesetSettings.ClientId, authlibLocalConfig.ClientId);
-                if (!string.IsNullOrEmpty(authlibLocalConfig.ClientSecret))
-                    configManager.SetValue(AuthlibRulesetSettings.ClientSecret, authlibLocalConfig.ClientSecret);
+                configManager.SetValue(AuthlibRulesetSettings.ApiUrl, authlibLocalConfig.ApiUrl);
+                configManager.SetValue(AuthlibRulesetSettings.WebsiteUrl, authlibLocalConfig.WebsiteUrl);
+                configManager.SetValue(AuthlibRulesetSettings.SpectatorUrl, authlibLocalConfig.SpectatorUrl);
+                configManager.SetValue(AuthlibRulesetSettings.MultiplayerUrl, authlibLocalConfig.MultiplayerUrl);
+                configManager.SetValue(AuthlibRulesetSettings.MetadataUrl, authlibLocalConfig.MetadataUrl);
+                configManager.SetValue(AuthlibRulesetSettings.BeatmapSubmissionServiceUrl, authlibLocalConfig.BeatmapSubmissionServiceUrl);
+                configManager.SetValue(AuthlibRulesetSettings.ClientId, authlibLocalConfig.ClientId);
+                configManager.SetValue(AuthlibRulesetSettings.ClientSecret, authlibLocalConfig.ClientSecret);
             }
         }
     }
